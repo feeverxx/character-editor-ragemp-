@@ -1,0 +1,269 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <title>RAGE:MP Character Editor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/character.css" />
+    <link rel="stylesheet" type="text/css" href="css/slider.css">
+    
+</head>
+<body>
+    <div class="characterEditor" v-if="active">
+        <h1>Karakter Editörü</h1>
+        <div class="block">
+            <label>Cinsiyeti Seçin:</label>
+            <div id="gender" class="changeGender">
+                <input @click="genderChange(1)" type="radio" id="switchMale" name="switch_2" value="male" checked />
+                <label for="switchMale" id="genderMale" class="btn active">Erkek</label>
+                <input @click="genderChange(0)" type="radio" id="switchFemale" name="switch_2" value="female" />
+                <label for="switchFemale" id="genderFemale" class="btn">Kadın</label>
+            </div>
+            <!-- <div class="changeGender">
+                <div id="genderMale" class="btn active">Erkek</div>
+                <div id="genderFemale" class="btn">Kadın</div>
+            </div> -->
+        </div>
+        <div v-if="!isAppearance">
+            <div class="block">
+                <label>Baba:</label>
+                <list id="father"></list>
+            </div>
+            <div class="block">
+                <label>Anne:</label>
+                <list id="mother"></list>
+            </div>
+        </div>
+        <div class="block">
+            <label>Benzerlik:</label>
+            <div class="slider">
+                <input id="parentsSlider" type="range" value="0.5" step="0.01" min="0" max="1">
+            </div>
+            <output id="parentsSlider">0.5</output>
+        </div>
+        <div class="block">
+            <label>Ten Rengi:</label>
+            <div class="slider">
+                <input id="skin" type="range" value="0.5" step="0.01" min="0" max="1">
+            </div>
+            <output id="skin">0.5</output>
+        </div>
+        <h3>Yüz</h3>
+        <div class="block">
+            <label>Kaş Yüksekliği:</label>
+            <div class="slider">
+                <input id="eyebrowHeight" name="specifications" type="range" value="0" step="0.01" min="-1" max="1">
+            </div>
+            <output id="eyebrowHeight">0</output>
+        </div>
+        <div class="block">
+            <label>Kaş Derinliği:</label>
+            <div class="slider">
+                <input id="eyebrowDepth" name="specifications" type="range" value="0" step="0.01" min="-1" max="1">
+            </div>
+            <output id="eyebrowDepth">0</output>
+        </div>
+        <div class="block">
+            <label>Burun Genişliği:</label>
+            <div class="slider">
+                <input id="noseWidth" name="specifications" type="range" value="0" step="0.01" min="-1" max="1">
+            </div>
+            <output id="noseWidth">0</output>
+        </div>
+        <div class="block">
+            <label>Burun Yüksekliği:</label>
+            <div class="slider">
+                <input id="noseHeight" name="specifications" type="range" value="0" step="0.01" min="-1" max="1">
+            </div>
+            <output id="noseHeight">0</output>
+        </div>
+        <div class="block">
+            <label>Burun Uzunluğu:</label>
+            <div class="slider">
+                <input id="noseTipLength" name="specifications" type="range" value="0" step="0.01" min="-1" max="1">
+            </div>
+            <output id="noseTipLength">0</output>
+        </div>
+        <div class="block">
+            <label>Burun Ucu Yüksekliği:</label>
+            <div class="slider">
+                <input id="noseTipHeight" name="specifications" type="range" value="0" step="0.01" min="-1" max="1">
+            </div>
+            <output id="noseTipHeight">0</output>
+        </div>
+        <div class="block">
+            <label>Burun Köprüsü:</label>
+            <div class="slider">
+                <input id="noseDepth" name="specifications" type="range" value="0" step="0.01" min="-1" max="1">
+            </div>
+            <output id="noseDepth">0</output>
+        </div>
+        <div class="block">
+            <label>Burun Düzlemi:</label>
+            <div class="slider">
+                <input id="noseBroke" name="specifications" type="range" value="0" step="0.01" min="-1" max="1">
+            </div>
+            <output id="noseBroke">0</output>
+        </div>
+        <div class="block">
+            <label>Elmacık Kemiği Yüksekliği:</label>
+            <div class="slider">
+                <input id="cheekboneHeight" name="specifications" type="range" value="0" step="0.01" min="-1" max="1">
+            </div>
+            <output id="cheekboneHeight">0</output>
+        </div>
+        <div class="block">
+            <label>Yanak Genişliği:</label>
+            <div class="slider">
+                <input id="cheekboneWidth" name="specifications" type="range" value="0" step="0.01" min="-1" max="1">
+            </div>
+            <output id="cheekboneWidth">0</output>
+        </div>
+        <div class="block">
+            <label>Yanak Derinliği:</label>
+            <div class="slider">
+                <input id="cheekDepth" name="specifications" type="range" value="0" step="0.01" min="-1" max="1">
+            </div>
+            <output id="cheekDepth">0</output>
+        </div>
+        <div class="block">
+            <label>Göz Boyutu:</label>
+            <div class="slider">
+                <input id="eyeScale" name="specifications" type="range" value="0" step="0.01" min="-1" max="1">
+            </div>
+            <output id="eyeScale">0</output>
+        </div>
+        <div class="block">
+            <label>Dudak Büyüklüğü:</label>
+            <div class="slider">
+                <input id="lipThickness" name="specifications" type="range" value="0" step="0.01" min="-1" max="1">
+            </div>
+            <output id="lipThickness">0</output>
+        </div>
+        <div class="block">
+            <label>Çene Genişliği:</label>
+            <div class="slider">
+                <input id="jawWidth" name="specifications" type="range" value="0" step="0.01" min="-1" max="1">
+            </div>
+            <output id="jawWidth">0</output>
+        </div>
+        <div class="block">
+            <label>Çene Şekli:</label>
+            <div class="slider">
+                <input id="jawShape" name="specifications" type="range" value="0" step="0.01" min="-1" max="1">
+            </div>
+            <output id="jawShape">0</output>
+        </div>
+        <div class="block">
+            <label>Çene Yüksekliği:</label>
+            <div class="slider">
+                <input id="chinHeight" name="specifications" type="range" value="0" step="0.01" min="-1" max="1">
+            </div>
+            <output id="chinHeight">0</output>
+        </div>
+        <div class="block">
+            <label>Çene Derinliği:</label>
+            <div class="slider">
+                <input id="chinDepth" name="specifications" type="range" value="0" step="0.01" min="-1" max="1">
+            </div>
+            <output id="chinDepth">0</output>
+        </div>
+        <div class="block">
+            <label>Çene Genişliği:</label>
+            <div class="slider">
+                <input id="chinWidth" name="specifications" type="range" value="0" step="0.01" min="-1" max="1">
+            </div>
+            <output id="chinWidth">0</output>
+        </div>
+        <div class="block">
+            <label>Çene Çıkıntısı:</label>
+            <div class="slider">
+                <input id="chinIndent" name="specifications" type="range" value="0" step="0.01" min="-1" max="1">
+            </div>
+            <output id="chinIndent">0</output>
+        </div>
+        <div class="block">
+            <label>Boyun:</label>
+            <div class="slider">
+                <input id="neck" name="specifications" type="range" value="0" step="0.01" min="-1" max="1">
+            </div>
+            <output id="neck">0</output>
+        </div>
+        <div v-if="!isAppearance">
+            <h3>Dış Görünüş</h3>
+            <div class="block">
+                <label>Saç:</label>
+                <list id="hairListItem"></list>
+            </div>
+            <div class="block">
+                <label>Saç Rengi:</label>
+                <list id="hairColorListItem"></list>
+            </div>
+            <div class="block">
+                <label>Kaşlar:</label>
+                <list id="eyeBrowsListItem"></list>
+            </div>
+            <div class="block">
+                <label>Kaş Rengi:</label>
+                <list id="eyeBrowsColorListItem"></list>
+            </div>
+            <div class="block">
+                <label>Göz Rengi:</label>
+                <list id="eyeColorListItem"></list>
+            </div>
+            <div class="block">
+                <label>Çiller:</label>
+                <list id="overlay9ListItem"></list>
+            </div>
+            <div class="block">
+                <label>Çil Rengi:</label>
+                <list id="overlay9ColorListItem"></list>
+            </div>
+            <div class="block" v-if="gender">
+                <label>Sakal:</label>
+                <list id="overlayListItem"></list>
+            </div>
+            <div class="block" v-if="gender">
+                <label>Sakal Rengi:</label>
+                <list id="overlayColorListItem"></list>
+            </div>
+            <div class="block" v-if="!gender">
+                <label>Pomad:</label>
+                <list id="overlay8ListItem"></list>
+            </div>
+            <div class="block" v-if="!gender">
+                <label>Ruj Rengi:</label>
+                <list id="overlay8ColorListItem"></list>
+            </div>
+            <div class="block" v-if="!gender">
+                <label>Allık:</label>
+                <list id="overlay5ListItem"></list>
+            </div>
+            <div class="block" v-if="!gender">
+                <label>Allık Rengi:</label>
+                <list id="overlay5ColorListItem"></list>
+            </div>
+            <div class="block" v-if="!gender">
+                <label>Makyaj:</label>
+                <list id="overlay4ListItem"></list>
+            </div>
+        </div>
+        <div @click="saveCharacter" class="button">Kaydetmek</div>
+    </div>
+    <div class="camera">
+        <p>Kamerayı Döndür</p>
+        <input id="rotate" type="range" value="100" step="1" min="0" max="360">
+        <output id="rotate">100</output>
+        <p>Kamera Aralığı</p>
+        <input id="depth" type="range" value="0" step="0.01" min="0" max="1">
+        <output id="depth">0</output>
+        <p>Kamera Yüksekliği</p>
+        <input id="height" type="range" value="0" step="0.01" min="-0.7" max="0.7">
+        <output id="height">0</output>
+    </div>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/rangeslider.min.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/character.js"></script>
+</body>
+</html>
